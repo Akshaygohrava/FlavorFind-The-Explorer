@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper";
 
 export default function RecipeDetails() {
   const { id } = useParams();

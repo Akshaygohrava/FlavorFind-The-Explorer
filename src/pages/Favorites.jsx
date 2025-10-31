@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PageWrapper from "../components/PageWrapper";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
@@ -27,6 +28,7 @@ export default function Favorites() {
   }
 
   return (
+    <PageWrapper>
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <h1 className="text-3xl font-bold text-center mb-8">❤️ Your Favorites</h1>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -61,5 +63,6 @@ export default function Favorites() {
         ))}
       </div>
     </div>
+    </PageWrapper>
   );
 }

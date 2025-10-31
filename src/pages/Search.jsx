@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"; // ✅ Add this import at the top
+import PageWrapper from "../components/PageWrapper";
 
 export default function Search() {
   const [query, setQuery] = useState("");
