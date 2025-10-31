@@ -3,7 +3,6 @@ import { Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import RecipeDetails from "./pages/RecipeDetails";
-
 import Favorites from "./pages/Favorites";
 
 export default function App() {
@@ -54,7 +53,6 @@ export default function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
-
         </Routes>
       </main>
     </div>
