@@ -1,100 +1,118 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // ✅ Add this import at the top
+import { Link } from "react-router-dom";
 import PageWrapper from "../components/PageWrapper";
 
 export default function Search() {
   const [query, setQuery] = useState("");
   const [recipes, setRecipes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  // Fetch recipes from TheMealDB API
-  const fetchRecipes = async (e) => {
-    e.preventDefault();
-    if (!query.trim()) return;
+  // Fetch all categories
+  useEffect(() => {
+    axios
+      .get("https://www.themealdb.com/api/json/v1/1/categories.php")
+      .then((res) => setCategories(res.data.categories))
+      .catch((err) => console.error(err));
+  }, []);
+
+  // Search by query or category
+  const fetchRecipes = async () => {
     setLoading(true);
-    setError("");
-    setRecipes([]);
-
     try {
-      const res = await axios.get(
-        `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
-      );
-      if (res.data.meals) {
-        setRecipes(res.data.meals);
+      let url = "";
+      if (query.trim() !== "") {
+        url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
+      } else if (selectedCategory) {
+        url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`;
       } else {
-        setError("No recipes found 😢");
+        url = `https://www.themealdb.com/api/json/v1/1/search.php?s=`;
       }
-    } catch (err) {
-      console.error(err);
-      setError("Failed to fetch recipes. Try again later.");
+
+      const res = await axios.get(url);
+      setRecipes(res.data.meals || []);
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchRecipes();
+  }, [selectedCategory]);
+
   return (
-    <div className="pt-24 px-4 max-w-6xl mx-auto">
-      {/* Search Bar */}
-      <form
-        onSubmit={fetchRecipes}
-        className="flex flex-col sm:flex-row items-center gap-3 justify-center mb-8"
-      >
-        <input
-          type="text"
-          placeholder="Search recipes by name or ingredient..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full sm:w-2/3 px-4 py-3 border rounded-full outline-none focus:ring-2 focus:ring-emerald-500"
-        />
-        <button
-          type="submit"
-          className="bg-emerald-600 text-white px-6 py-3 rounded-full hover:bg-emerald-700 transition"
-        >
-          Search 🔍
-        </button>
-      </form>
+    <PageWrapper>
+      <div className="min-h-screen bg-gray-50 py-10 px-4">
+        <h1 className="text-3xl font-bold text-center mb-6">🔍 Search Recipes</h1>
 
-      {/* Loading */}
-      {loading && (
-        <p className="text-center text-gray-500 animate-pulse">Loading recipes...</p>
-      )}
-
-      {/* Error */}
-      {error && (
-        <p className="text-center text-red-500 font-medium">{error}</p>
-      )}
-
-      {/* Recipe Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipes.map((recipe) => (
-          <div
-            key={recipe.idMeal}
-            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition"
+        {/* Search + Filter Controls */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-8">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search by name or ingredient..."
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-1/2 focus:ring-2 focus:ring-orange-400 outline-none"
+          />
+          <button
+            onClick={fetchRecipes}
+            className="bg-orange-500 text-white px-5 py-2 rounded-lg hover:bg-orange-600 transition"
           >
-            <img
-              src={recipe.strMealThumb}
-              alt={recipe.strMeal}
-              className="w-full h-52 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {recipe.strMeal}
-              </h3>
-              <p className="text-gray-500 text-sm mb-2">
-                {recipe.strArea} • {recipe.strCategory}
-              </p>
-              <Link
-  to={`/recipe/${recipe.idMeal}`}
-  className="inline-block text-emerald-600 hover:underline font-medium"
->
-  View Recipe →
-</Link>
-            </div>
+            Search
+          </button>
+        </div>
+
+        {/* Category Dropdown */}
+        <div className="flex justify-center mb-8">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:ring-2 focus:ring-orange-400 outline-none"
+          >
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat.idCategory} value={cat.strCategory}>
+                {cat.strCategory}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Results */}
+        {loading ? (
+          <p className="text-center text-gray-600 text-lg">Loading recipes...</p>
+        ) : recipes.length === 0 ? (
+          <p className="text-center text-gray-600 text-lg">No recipes found 😢</p>
+        ) : (
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {recipes.map((recipe) => (
+              <div
+                key={recipe.idMeal}
+                className="bg-white rounded-xl shadow hover:shadow-lg transition p-3"
+              >
+                <img
+                  src={recipe.strMealThumb}
+                  alt={recipe.strMeal}
+                  className="rounded-lg w-full h-48 object-cover"
+                />
+                <div className="mt-3 text-center">
+                  <h2 className="text-lg font-semibold">{recipe.strMeal}</h2>
+                  <Link
+                    to={`/recipe/${recipe.idMeal}`}
+                    className="mt-2 inline-block bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
-    </div>
+    </PageWrapper>
   );
 }

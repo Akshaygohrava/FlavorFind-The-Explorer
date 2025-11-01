@@ -3,6 +3,7 @@ import PageWrapper from "../components/PageWrapper";
 
 export default function Home() {
   return (
+    <PageWrapper>
     <div className="min-h-screen bg-gradient-to-br from-orange-100 to-yellow-50 flex flex-col justify-center items-center text-center px-6">
       <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-800 mb-4">
         🍔 FlavorFind
@@ -26,5 +27,6 @@ export default function Home() {
         className="w-full max-w-md mt-10 rounded-2xl shadow-lg"
       />
     </div>
+    </PageWrapper>
   );
 }

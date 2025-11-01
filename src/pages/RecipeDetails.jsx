@@ -63,6 +63,7 @@ export default function RecipeDetails() {
   }
 
   return (
+    <PageWrapper>
     <div className="pt-24 px-4 max-w-5xl mx-auto">
       <Link
         to="/search"
@@ -129,5 +130,6 @@ export default function RecipeDetails() {
         </div>
       </div>
     </div>
+    </PageWrapper>
   );
 }
