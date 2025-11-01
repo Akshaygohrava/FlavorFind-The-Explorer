@@ -9,6 +9,7 @@ export default function Search() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(8); // Pagination count
 
   // Fetch all categories
   useEffect(() => {
@@ -18,7 +19,7 @@ export default function Search() {
       .catch((err) => console.error(err));
   }, []);
 
-  // Search by query or category
+  // Fetch recipes by search or category
   const fetchRecipes = async () => {
     setLoading(true);
     try {
@@ -33,6 +34,7 @@ export default function Search() {
 
       const res = await axios.get(url);
       setRecipes(res.data.meals || []);
+      setVisibleCount(8); // Reset pagination on new search/filter
     } catch (error) {
       console.error(error);
     } finally {
@@ -40,9 +42,14 @@ export default function Search() {
     }
   };
 
+  // Auto fetch when category changes
   useEffect(() => {
     fetchRecipes();
   }, [selectedCategory]);
+
+  const loadMore = () => {
+    setVisibleCount((prev) => prev + 8);
+  };
 
   return (
     <PageWrapper>
@@ -88,29 +95,43 @@ export default function Search() {
         ) : recipes.length === 0 ? (
           <p className="text-center text-gray-600 text-lg">No recipes found 😢</p>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {recipes.map((recipe) => (
-              <div
-                key={recipe.idMeal}
-                className="bg-white rounded-xl shadow hover:shadow-lg transition p-3"
-              >
-                <img
-                  src={recipe.strMealThumb}
-                  alt={recipe.strMeal}
-                  className="rounded-lg w-full h-48 object-cover"
-                />
-                <div className="mt-3 text-center">
-                  <h2 className="text-lg font-semibold">{recipe.strMeal}</h2>
-                  <Link
-                    to={`/recipe/${recipe.idMeal}`}
-                    className="mt-2 inline-block bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600"
-                  >
-                    View Details
-                  </Link>
+          <>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {recipes.slice(0, visibleCount).map((recipe) => (
+                <div
+                  key={recipe.idMeal}
+                  className="bg-white rounded-xl shadow hover:shadow-lg transition p-3"
+                >
+                  <img
+                    src={recipe.strMealThumb}
+                    alt={recipe.strMeal}
+                    className="rounded-lg w-full h-48 object-cover"
+                  />
+                  <div className="mt-3 text-center">
+                    <h2 className="text-lg font-semibold">{recipe.strMeal}</h2>
+                    <Link
+                      to={`/recipe/${recipe.idMeal}`}
+                      className="mt-2 inline-block bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600"
+                    >
+                      View Details
+                    </Link>
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Load More Button */}
+            {visibleCount < recipes.length && (
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={loadMore}
+                  className="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition"
+                >
+                  Load More 🍽️
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
     </PageWrapper>

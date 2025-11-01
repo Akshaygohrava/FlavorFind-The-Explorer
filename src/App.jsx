@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Search from "./pages/Search";
 import RecipeDetails from "./pages/RecipeDetails";
 import Favorites from "./pages/Favorites";
+import Footer from "./components/Footer";
+
 
 
 export default function App() {
@@ -55,6 +57,7 @@ export default function App() {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>
+        <Footer />
       </main>
     </div>
   );
