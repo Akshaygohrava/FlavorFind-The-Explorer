@@ -1,49 +1,78 @@
-FlavorFind 🍔 – Recipe Finder App
+# FlavorFind 🍔 – Recipe Finder App
 
-FlavorFind is a modern, responsive React frontend application that helps users discover delicious recipes from around the world. Built with React, React Router, Tailwind CSS, and Axios, this project focuses on clean UI, client-side routing, and real-world data fetching without any backend.
+[![Live Preview](https://img.shields.io/badge/Live-Preview-green?style=flat-square)](https://flavor-find-the-explorer.vercel.app/)
+[![React](https://img.shields.io/badge/React-18+-blue?logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3+-teal?logo=tailwindcss)](https://tailwindcss.com/)
 
-🔹 Features
+Discover delicious recipes from around the world with FlavorFind! This modern, mobile-responsive React app lets you search, view, and save your favorite recipes – all with a clean UI and seamless navigation.
 
-Home Page: Welcome page with app introduction.
+---
 
-Search Recipes: Search for recipes by name or ingredient using a public API.
+## ✨ Features
 
-Recipe Details: View detailed recipe instructions, ingredients, and images.
+- **🏠 Home Page:** Friendly introduction to the app.
+- **🔍 Search Recipes:** Find recipes by name or ingredient via a public API.
+- **📋 Recipe Details:** Step-by-step instructions, ingredients, and appetizing images.
+- **❤️ Favorites:** Save your favorite recipes locally (powered by `localStorage`).
+- **📱 Responsive Design:** Looks great on any device, styled with Tailwind CSS.
+- **🛣️ Client-side Routing:** Effortlessly navigate between pages (React Router).
 
-Favorites: Save favorite recipes locally using localStorage.
+---
 
-Responsive Design: Fully mobile-friendly with Tailwind CSS.
+## 🛠️ Tech Stack
 
-Client-side Routing: Navigate between pages with React Router.
+- **React** – Component-based UI
+- **React Router DOM** – Multi-page navigation
+- **Tailwind CSS** – Modern styling & responsive layouts
+- **Axios / Fetch API** – Data fetching from public APIs
+- **localStorage** – Persist user favorites
 
-🔹 Tech Stack
+---
 
-React – Component-based UI
+## 📚 Learning Outcomes
 
-React Router DOM – Multi-page navigation
+- Build a real-world frontend project with React
+- Implement dynamic routing with React Router
+- Fetch and display data from external APIs
+- Create reusable components and layouts using Tailwind CSS
+- Manage client-side state and persist favorites locally
 
-Tailwind CSS – Modern styling and responsive layout
+---
 
-Axios / Fetch API – Data fetching from public APIs
+## 🚀 [Live Preview](https://flavor-find-the-explorer.vercel.app/)
 
-LocalStorage – Save user’s favorite recipes
+---
 
-🔹 Learning Outcomes
+## 💡 Optional Improvements
 
-Build a real-world frontend project with React.
+- Filter recipes by category or meal type
+- Pagination or infinite scroll for search results
+- UI polish with animations (e.g., Framer Motion)
 
-Implement dynamic routing with React Router.
+---
 
-Fetch and display data from external APIs.
+## 🖼️ Screenshots
 
-Create reusable components and layouts using Tailwind CSS.
+<!--
+Add screenshots of your app here for extra appeal!
+Example:
+![Home](link-to-homepage-screenshot)
+![Search Results](link-to-search-results-screenshot)
+-->
 
-Manage client-side state and persist favorites using localStorage.
+---
 
-🔹 Optional Improvements
+## 🤝 Contributing
 
-Add filter by category or meal type
+Contributions, issues, and feature requests are welcome!  
+Feel free to [open an issue](https://github.com/Akshaygohrava/FlavorFind/issues) or submit a pull request.
 
-Include pagination or infinite scroll for search results
+---
 
-Add animations with Framer Motion for UI polish
+## 📄 License
+
+This project is [MIT licensed](LICENSE).
+
+---
+
+### Made with ❤️ by [Akshaygohrava](https://github.com/Akshaygohrava)
